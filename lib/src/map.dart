@@ -17,7 +17,7 @@ class MapBinding<K, V> with Observable, ValueWrapper<Map<K, V>> {
   @override
   set value(Map<K, V> newValue) {
     _value.breakDependents();
-    _value = ObservableMap(this, value);
+    _value = ObservableMap(this, newValue);
     updateSubscriber();
   }
 
