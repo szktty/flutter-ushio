@@ -20,7 +20,7 @@ class ListBinding<E> with Observable, ValueWrapper<List<E>> {
   @override
   set value(List<E> newValue) {
     _value.breakDependents();
-    _value = ObservableList(this, value);
+    _value = ObservableList(this, newValue);
     updateSubscriber();
   }
 
@@ -135,7 +135,13 @@ class ObservableList<E> with Observable implements List<E> {
 
   @override
   set length(int newLength) {
-    // TODO: implement length
+    if (newLength > _wrapped.length) {
+      for (var i = _wrapped.length; i < newLength; i++) {
+        _unwrap(_wrapped[i]);
+      }
+    }
+    _wrapped.length = newLength;
+    updateSubscriber();
   }
 
   @override
@@ -258,12 +264,17 @@ class ObservableList<E> with Observable implements List<E> {
 
   @override
   void insert(int index, E element) {
-    // TODO: implement insert
+    _wrapped.insert(index, _wrap(element));
+    updateSubscriber();
   }
 
   @override
   void insertAll(int index, Iterable<E> iterable) {
-    // TODO: implement insertAll
+    for (final e in iterable) {
+      _wrap(e);
+    }
+    _wrapped.insertAll(index, iterable);
+    updateSubscriber();
   }
 
   @override
@@ -307,14 +318,20 @@ class ObservableList<E> with Observable implements List<E> {
 
   @override
   bool remove(Object? value) {
-    // TODO: implement remove
-    throw UnimplementedError();
+    if (value is E) {
+      _unwrap(value);
+    }
+    final res = _wrapped.remove(value);
+    updateSubscriber();
+    return res;
   }
 
   @override
   E removeAt(int index) {
-    // TODO: implement removeAt
-    throw UnimplementedError();
+    final e = _wrapped.removeAt(index);
+    _unwrap(e);
+    updateSubscriber();
+    return e;
   }
 
   @override
@@ -327,7 +344,9 @@ class ObservableList<E> with Observable implements List<E> {
 
   @override
   void removeRange(int start, int end) {
-    // TODO: implement removeRange
+    _unwrapRange(start, end);
+    _wrapped.removeRange(start, end);
+    updateSubscriber();
   }
 
   @override
@@ -371,7 +390,15 @@ class ObservableList<E> with Observable implements List<E> {
 
   @override
   void setRange(int start, int end, Iterable<E> iterable, [int skipCount = 0]) {
-    // TODO: implement setRange
+    print('setRange $_wrapped');
+    for (var i = start; i < end; i++) {
+      _unwrap(_wrapped[i]);
+    }
+    for (final e in iterable.skip(skipCount)) {
+      _wrap(e);
+    }
+    _wrapped.setRange(start, end, iterable, skipCount);
+    updateSubscriber();
   }
 
   @override
