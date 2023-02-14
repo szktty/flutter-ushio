@@ -1,0 +1,17 @@
+name: ushio
+description: A state management library inspired by the one used in SwiftUI.
+version: 2023.1.0
+homepage: https://github.com/szktty/flutter-ushio
+
+environment:
+  sdk: '>=2.19.1 <3.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.1
