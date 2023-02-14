@@ -390,7 +390,6 @@ class ObservableList<E> with Observable implements List<E> {
 
   @override
   void setRange(int start, int end, Iterable<E> iterable, [int skipCount = 0]) {
-    print('setRange $_wrapped');
     for (var i = start; i < end; i++) {
       _unwrap(_wrapped[i]);
     }
