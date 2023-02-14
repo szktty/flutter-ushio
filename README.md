@@ -28,7 +28,7 @@ import 'package:ushio/ushio.dart';
 
 [Guide (Japanese)](https://zenn.dev/shiguredo/articles/flutter-ushio-guide)
 
-See also [examples](./examples/README.md).
+See also [examples](./example/README.md).
 
 ## License
 
