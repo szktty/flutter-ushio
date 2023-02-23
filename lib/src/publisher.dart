@@ -22,7 +22,7 @@ abstract class Publisher<Output, Failure extends Error> {
   void assign(Publisher<Output, Failure> publisher);
   Cancellable sink({
     required void Function(Output) onReceive,
-    required void Function(Failure)? onFailure,
+    required void Function(Failure?)? onFinish,
   });
 }
 
@@ -55,7 +55,7 @@ class AnyPublisher<Output, Failure extends Error>
   @override
   Cancellable sink({
     required void Function(Output) onReceive,
-    required void Function(Failure)? onFailure,
+    required void Function(Failure?)? onFinish,
   }) {
     throw UnimplementedError();
   }
@@ -126,7 +126,7 @@ class Sink<Output, Failure extends Error>
   @override
   Cancellable sink(
       {required void Function(Output p1) onReceive,
-      required void Function(Failure p1)? onFailure}) {
+      required void Function(Failure? p1)? onFinish}) {
     // TODO: implement sink
     throw UnimplementedError();
   }
